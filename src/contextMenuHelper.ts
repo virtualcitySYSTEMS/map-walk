@@ -24,11 +24,11 @@ export default function addMapDependentContextMenu(
     if (
       !plugin.walkSession &&
       event.position &&
-      event.feature &&
-      !(
-        app.layers.getByKey(event.feature[vcsLayerName]) instanceof
-        CesiumTilesetLayer
-      )
+      (!event.feature ||
+        !(
+          app.layers.getByKey(event.feature[vcsLayerName]) instanceof
+          CesiumTilesetLayer
+        ))
     ) {
       contextEntries.push({
         name: 'walk.start',
