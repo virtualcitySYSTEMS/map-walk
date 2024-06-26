@@ -46,14 +46,14 @@
   "prettier": "@vcsuite/eslint-config/prettier.js",
   "peerDependencies": {
     "@vcmap-cesium/engine": "^4.0.3",
-    "@vcmap/core": "^5.1.6",
-    "@vcmap/ui": "^5.1.8",
+    "@vcmap/core": "^5.3.0",
+    "@vcmap/ui": "^5.3.0",
     "vue": "~2.7.3",
     "vuetify": "~2.6.7"
   },
   "devDependencies": {
-    "@vcmap/plugin-cli": "^3.0.1",
-    "@vcsuite/eslint-config": "^3.0.6",
+    "@vcmap/plugin-cli": "^3.1.2",
+    "@vcsuite/eslint-config": "^3.0.7",
     "@vitest/coverage-v8": "^1.4.0",
     "jest-canvas-mock": "^2.5.2",
     "jsdom": "^24.0.0",
@@ -62,5 +62,5 @@
     "vitest": "^1.4.0",
     "vue-tsc": "^2.0.7"
   },
-  "mapVersion": "^5.1"
+  "mapVersion": "^5.3"
 }
