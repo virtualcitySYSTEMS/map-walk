@@ -14,7 +14,9 @@ export function openWindow(app: VcsUiApp): void {
         headerTitle: 'walk.headerTitle',
         headerIcon: '$vcsWalking',
         styles: { width: '280px', height: 'auto' },
-        infoUrlCallback: app.getHelpUrlCallback('tools/walk.html'),
+        infoUrlCallback: app.getHelpUrlCallback(
+          'components/mapspace.html#id_3DView_walkmode',
+        ),
       },
     },
     name,
