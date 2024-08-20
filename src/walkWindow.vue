@@ -1,12 +1,12 @@
 <template>
   <v-sheet>
-    <section class="py-1 pr-2">
+    <VcsHelp>
       <ul>
         <li>{{ $t('walk.navigation.move') }}</li>
         <li>{{ $t('walk.navigation.boost') }}</li>
         <li>{{ $t('walk.navigation.look') }}</li>
       </ul>
-    </section>
+    </VcsHelp>
     <v-divider />
     <v-container class="px-1 pt-0 pb-2">
       <v-row no-gutters>
@@ -15,7 +15,7 @@
             $t('walk.viewingHeight')
           }}</VcsLabel>
         </v-col>
-        <v-col>
+        <v-col cols="4">
           <VcsTextField
             id="walk-viewing-height"
             type="number"
@@ -24,7 +24,6 @@
             min="0.1"
             max="10000"
             step="0.1"
-            :show-spin-buttons="true"
             v-model.number="viewHeight"
           />
         </v-col>
@@ -36,12 +35,12 @@
           }}</VcsLabel>
         </v-col>
         <v-col class="d-flex justify-end align-center">
-          <span>{{ `${fov} °` }}</span>
+          <span>{{ `${Math.round(fov)} °` }}</span>
         </v-col>
       </v-row>
       <v-row no-gutters>
         <v-col>
-          <VcsSlider v-model="fov" min="35" max="85" height="15" />
+          <VcsSlider v-model="fov" min="35" max="85" step="1" />
         </v-col>
       </v-row>
       <v-row no-gutters class="pr-1">
@@ -56,7 +55,7 @@
       </v-row>
       <v-row no-gutters>
         <v-col>
-          <VcsSlider v-model="heading" min="1" max="360" height="15" />
+          <VcsSlider v-model="heading" min="1" max="360" />
         </v-col>
       </v-row>
       <v-row no-gutters class="pr-1">
@@ -71,20 +70,15 @@
       </v-row>
       <v-row no-gutters>
         <v-col>
-          <VcsSlider
-            v-model="pitch"
-            :min="minPitch"
-            :max="maxPitch"
-            height="15"
-          />
+          <VcsSlider v-model="pitch" :min="minPitch" :max="maxPitch" />
         </v-col>
       </v-row>
     </v-container>
     <v-divider />
-    <v-container class="px-1 py-0">
+    <v-container class="px-2 pt-2 pb-1">
       <v-row no-gutters>
         <v-col class="d-flex justify-end">
-          <VcsFormButton variant="filled" @click="stop" class="px-1 pb-1 pt-2">
+          <VcsFormButton variant="filled" @click="stop" tooltip="walk.stopMode">
             {{ $t('walk.stop') }}
           </VcsFormButton>
         </v-col>
@@ -100,6 +94,7 @@
     VcsUiApp,
     VcsFormButton,
     VcsSlider,
+    VcsHelp,
   } from '@vcmap/ui';
   import {
     computed,
@@ -109,7 +104,7 @@
     ref,
     watch,
   } from 'vue';
-  import { VCol, VContainer, VRow, VSheet, VDivider } from 'vuetify/lib';
+  import { VCol, VContainer, VRow, VSheet, VDivider } from 'vuetify/components';
   import { CesiumMap } from '@vcmap/core';
   import type { VcsMap } from '@vcmap/core';
   import { PerspectiveFrustum, Math as CesiumMath } from '@vcmap-cesium/engine';
@@ -139,6 +134,7 @@
       VcsTextField,
       VcsFormButton,
       VcsSlider,
+      VcsHelp,
       VCol,
       VContainer,
       VRow,
