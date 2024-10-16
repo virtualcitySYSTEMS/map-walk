@@ -1,5 +1,6 @@
 import { VcsPlugin, VcsUiApp } from '@vcmap/ui';
 import { CesiumMap } from '@vcmap/core';
+import { getLogger } from '@vcsuite/logger';
 import { name, version, mapVersion } from '../package.json';
 import createWalkSession, { WalkSession } from './walkSession.js';
 import addMapDependentContextMenu from './contextMenuHelper.js';
@@ -33,7 +34,7 @@ export default function plugin(): WalkPlugin {
   let app: VcsUiApp | undefined;
   let walkSession: WalkSession | undefined;
   let stoppedListener = (): void => {};
-  let destroy = (): void => {};
+  let removeContextMenuHandling = (): void => {};
 
   return {
     get name(): string {
@@ -68,19 +69,20 @@ export default function plugin(): WalkPlugin {
     initialize(vcsUiApp: VcsUiApp): Promise<void> {
       app = vcsUiApp;
 
-      const removeContextMenuHandling = addMapDependentContextMenu(
-        vcsUiApp,
-        this,
-      );
+      removeContextMenuHandling = addMapDependentContextMenu(vcsUiApp, this);
 
-      destroy = (): void => {
-        walkSession?.stop();
-        stoppedListener();
-        removeContextMenuHandling();
-      };
       return Promise.resolve();
     },
-    destroy,
+    destroy(): void {
+      walkSession?.stop();
+      if (app) {
+        jumpToDefaultView(app).catch((e) => {
+          getLogger(name).error(e);
+        });
+      }
+      stoppedListener();
+      removeContextMenuHandling();
+    },
     i18n: {
       en: {
         walk: {
@@ -108,10 +110,10 @@ export default function plugin(): WalkPlugin {
           start: 'Fußgängermodus starten',
           openSettings: 'Fußgängermodus Einstellungen',
           navigation: {
-            move: 'Verwende die Pfeiltasten oder "W"/"A"/"S"/"D" um dich fortzubewegen.',
+            move: 'Verwenden Sie die Pfeiltasten oder "W"/"A"/"S"/"D", um sich fortzubewegen.',
             boost:
-              'Halte die linke Shift-Taste gedrückt um dich schneller fortzubewegen.',
-            look: 'Ziehe mit der linken Maustaste über die Karte um herumzuschauen.',
+              'Halten Sie die linke Shift-Taste gedrückt, um sich schneller fortzubewegen.',
+            look: 'Ziehen Sie mit der linken Maustaste über die Karte, um herumzuschauen.',
           },
         },
       },
