@@ -1,6 +1,6 @@
 {
   "name": "@vcmap/walk",
-  "version": "2.0.0-rc.0",
+  "version": "2.0.0",
   "description": "Allows user to enter a walk mode.",
   "type": "module",
   "main": "dist/index.js",
