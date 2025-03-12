@@ -205,7 +205,8 @@ export function setupNavigationControls(
     };
 
     canvas.setAttribute('tabindex', '0'); // needed to put focus on the canvas
-    canvas.onclick = (): void => {
+    canvas.onclick = (e: MouseEvent): void => {
+      e.stopPropagation();
       canvas.focus();
     };
     canvas.onblur = (): void => keysPressed.clear();
